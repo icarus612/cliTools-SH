@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/python3
+
 function dae () {
-  python /usr/bin/.daedalus/python/$1.py $@
+  echo "Running dae command"
+
 }

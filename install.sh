@@ -18,13 +18,18 @@ function install_all() {
   mkdir $dae_dir
   
   touch $dae_sh
-  cat $bash_files >> $dae_sh
+  for b_file in "${bash_files[@]}"
+  do
+    if ### need to finish out this line
+    cat $b_file >> $dae_sh
+  done
   echo "Added scripts to $dae_sh"
       
   mkdir $dae_py
   cp -r ./python_scripts/*.py $dae_py
   chmod +x $dae_py/*.py
   echo "Added scripts to $dae_py"
+  source $dae_sh
 
   for rc_file in "${files_to_check[@]}"
   do
