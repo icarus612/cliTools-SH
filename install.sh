@@ -15,16 +15,28 @@ function install_all() {
     echo "Removing existing daedalus installation"
     rm -rf $dae_dir
   fi
-  mkdir $dae_dir
   
+  local to_source=($dae_sh/*.sh)
+  mkdir $dae_dir
   mkdir $dae_sh
+  mkdir $dae_py
+  
+  for path in "${to_source[@]}"
+  do
+    echo "$path"
+  done
   touch $entry_file
+  
+  for path in "${to_source[@]}"
+  do
+    echo "source $path" >> $entry_file 
+  done 
+  
+  
   cp -r ./bash_scripts/*.sh $dae_sh
-  echo ./bash_scripts/*.sh >> $entry_file
   chmod +x $dae_sh/*.sh
   echo "Added scripts to $dae_sh"
       
-  mkdir $dae_py
   cp -r ./python_scripts/*.py $dae_py
   chmod +x $dae_py/*.py
   echo "Added scripts to $dae_py"
