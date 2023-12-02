@@ -1,26 +1,46 @@
 #!/bin/bash
+
 function install_all() {
-  local dae=/usr/bin/.daedalus.sh
-  local install_files=./src/**.sh
-  local files_to_check=(~/.bashrc ~/.bash_profile ~/.zshrc ~/.zprofile)
+  local dae_dir=/usr/bin/.daedalus
+  local dae_sh="$dae_dir/bash.sh"
+  local dae_py="$dae_dir/python"
+  local bash_files=./bash_scripts/**.sh
+  local files_to_check=(.bashrc .bash_profile .zshrc .zprofile)
   local source_found=false
   local installed_items=()
   
-  echo "Installing Daedalus"
-  echo "Warning: This is a linux/unix only script"
-  touch $dae
-  cat $install_files >> $dae
-  echo "Added scripts to $dae"
+  echo "Installing Daedalus: This is a linux/unix only script"
+  if [[ -d "$dae_dir" ]]; then
+    echo "Warning: This script will overwrite any existing daedalus installation"
+    echo "Removing existing daedalus installation"
+    rm -rf $dae_dir
+  fi
+  mkdir $dae_dir
+  
+  touch $dae_sh
+  cat $bash_files >> $dae_sh
+  echo "Added scripts to $dae_sh"
       
+  mkdir $dae_py
+  cp -r ./python_scripts/*.py $dae_py
+  chmod +x $dae_py/*.py
+  echo "Added scripts to $dae_py"
+
   for rc_file in "${files_to_check[@]}"
   do
-    echo $rc_file
-    if [[ -f "$rc_file" ]]; then
-      echo "Found $rc_file"
-      echo "Adding to $rc_file"
-      cat "$dae" >> $rc_file
-      source $rc_file
+    local usr_rc=/home/$(logname)/$rc_file
+    
+    if [[ -f "$usr_rc" ]]; then
       source_found=true
+      echo "Found $rc_file"
+      if grep -q "source $dae_sh" $usr_rc
+      then
+        echo "Daedalus already installed in $rc_file"
+      else 
+        echo "Adding Daedalus to $rc_file"
+        printf "\nsource $dae_sh" >> $usr_rc
+        source $usr_rc
+      fi
       break
     fi
   done
@@ -29,14 +49,17 @@ function install_all() {
   then
     echo "No source file found"
     echo "Please add the following line to your source file"
-    echo "source $dae"
+    echo "source $dae_sh"
   else 
     echo "Source file found"
     echo "Installation complete"
     echo "Scripts installed:"
-    installed_items+=$(grep -r -Po "(?<=^function).+?(?=[\({])" $install_files)
-    installed_items+=$(grep -r -Po "^alias.*=" $install_files)
-    echo $installed_items
+    installed_items+=($(grep -Prho "(?<=^function).+?(?=[\({])" $bash_files))
+    installed_items+=($(grep -Prho "^alias.*=" $bash_files))
+    for item in "${installed_items[@]}"
+    do
+      echo $item
+    done
   fi
 }
 
