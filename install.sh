@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function install_all() {
-  local dae_dir=/usr/bin/.daedalus
+  local dae_dir=$HOME/.daedalus
   local dae_sh="$dae_dir/bash"
   local dae_py="$dae_dir/python"
   local entry_file="$dae_sh/workbench.sh"
@@ -12,7 +12,8 @@ function install_all() {
   local python_files=./python_scripts/*.py
 
   echo "Installing Daedalus: This is a linux/unix only script"
-  if [[ -d "$dae_dir" ]]; then
+  if [[ -d "$dae_dir" ]]
+  then
     echo "Warning: This script will overwrite any existing daedalus installation"
     echo "Removing existing daedalus installation"
     rm -rf $dae_dir
@@ -41,7 +42,7 @@ function install_all() {
   
   for rc_file in "${files_to_check[@]}"
   do
-    local usr_rc=/home/$(logname)/$rc_file
+    local usr_rc=$HOME/$rc_file
 
     if [[ -f "$usr_rc" ]]
     then
