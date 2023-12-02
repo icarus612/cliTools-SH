@@ -2,9 +2,9 @@
 
 function install_all() {
   local dae_dir=/usr/bin/.daedalus
-  local dae_sh="$dae_dir/bash.sh"
+  local dae_sh="$dae_dir/bash"
   local dae_py="$dae_dir/python"
-  local bash_files=./bash_scripts/**.sh
+  local entry_file="$dae_sh/workbench.sh"
   local files_to_check=(.bashrc .bash_profile .zshrc .zprofile)
   local source_found=false
   local installed_items=()
@@ -17,19 +17,17 @@ function install_all() {
   fi
   mkdir $dae_dir
   
-  touch $dae_sh
-  for b_file in "${bash_files[@]}"
-  do
-    if ### need to finish out this line
-    cat $b_file >> $dae_sh
-  done
+  mkdir $dae_sh
+  touch $entry_file
+  cp -r ./bash_scripts/*.sh $dae_sh
+  echo ./bash_scripts/*.sh >> $entry_file
+  chmod +x $dae_sh/*.sh
   echo "Added scripts to $dae_sh"
       
   mkdir $dae_py
   cp -r ./python_scripts/*.py $dae_py
   chmod +x $dae_py/*.py
   echo "Added scripts to $dae_py"
-  source $dae_sh
 
   for rc_file in "${files_to_check[@]}"
   do
@@ -38,12 +36,13 @@ function install_all() {
     if [[ -f "$usr_rc" ]]; then
       source_found=true
       echo "Found $rc_file"
-      if grep -q "source $dae_sh" $usr_rc
+      local src_cmd="source $entry_file"
+      if grep -q $src_cmd $usr_rc
       then
         echo "Daedalus already installed in $rc_file"
       else 
         echo "Adding Daedalus to $rc_file"
-        printf "\nsource $dae_sh" >> $usr_rc
+        printf "\n$src_cmd" >> $usr_rc
         source $usr_rc
       fi
       break
