@@ -2,7 +2,7 @@
 
 function install_all() {
   local home_dir=$HOME
-  if $USER == "root"
+  if [[ $USER == "root" ]]
   then
     home_dir=$(getent passwd $SUDO_USER | cut -d: -f6)
   fi

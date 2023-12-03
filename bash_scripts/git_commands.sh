@@ -13,5 +13,6 @@ function gup() {
 }
 
 function gclone() {
-    git clone git@github.com:icarus612/$1.git $2
+    echo $1
+    git clone git@github.com:icarus612/"$1".git "$2"
 }
