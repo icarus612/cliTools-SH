@@ -2,7 +2,8 @@
 
 function gup() {
     local message=$1
-    if [[ -z "$message" ]]; then
+    if [[ -z "$message" ]]
+    then
         echo "No commit message supplied, using default message"
         message="update" 
     fi
@@ -12,5 +13,10 @@ function gup() {
 }
 
 function gclone() {
-    git clone git@github.com:icarus612/"$1".git "$2"
+    local name=$1
+    if [[ -z "$2" ]]
+    then
+        name = $2 
+    fi
+    git clone git@github.com:icarus612/"$1".git $name
 }
