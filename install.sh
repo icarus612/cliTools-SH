@@ -1,7 +1,8 @@
 #!/bin/bash
 
 function install_all() {
-  local dae_dir=$HOME/.daedalus
+  local home_dir=$(getent passwd $SUDO_USER | cut -d: -f6)
+  local dae_dir=$home_dir/.daedalus
   local dae_sh="$dae_dir/bash"
   local dae_py="$dae_dir/python"
   local entry_file="$dae_sh/workbench.sh"
@@ -42,8 +43,8 @@ function install_all() {
   
   for rc_file in "${files_to_check[@]}"
   do
-    local usr_rc=$HOME/$rc_file
-
+    local usr_rc=$home_dir/$rc_file
+    echo $usr_rc
     if [[ -f "$usr_rc" ]]
     then
       source_found=true
