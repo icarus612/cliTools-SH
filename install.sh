@@ -78,7 +78,7 @@ function install_all() {
     installed_items+=($(grep -Prho "(?<=^alias).*(?=\=)" $bash_files))
     for item in "${installed_items[@]}"
     do
-      echo $item
+      printf "* $item\n"
     done
   fi
 }
