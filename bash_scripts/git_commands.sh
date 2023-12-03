@@ -11,3 +11,5 @@ function gup() {
     git commit -m "$message"
     git push
 }
+
+alias gclone="git clone git@github.com:icarus612/$1.git"

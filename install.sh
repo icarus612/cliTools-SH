@@ -1,7 +1,11 @@
 #!/bin/bash
 
 function install_all() {
-  local home_dir=$(getent passwd $SUDO_USER | cut -d: -f6)
+  local home_dir=$HOME
+  if $USER == "root"
+  then
+    home_dir=$(getent passwd $SUDO_USER | cut -d: -f6)
+  fi
   local dae_dir=$home_dir/.daedalus
   local dae_sh="$dae_dir/bash"
   local dae_py="$dae_dir/python"
@@ -71,7 +75,7 @@ function install_all() {
     echo "Installation complete"
     echo "Scripts installed:"
     installed_items+=($(grep -Prho "(?<=^function).+?(?=[\({])" $bash_files))
-    installed_items+=($(grep -Prho "^alias.*=" $bash_files))
+    installed_items+=($(grep -Prho "(?<=^alias).*(?=\=)" $bash_files))
     for item in "${installed_items[@]}"
     do
       echo $item
