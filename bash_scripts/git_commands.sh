@@ -12,4 +12,6 @@ function gup() {
     git push
 }
 
-alias gclone="git clone git@github.com:icarus612/$1.git"
+function gclone() {
+    git clone git@github.com:icarus612/$1.git $2
+}
