@@ -60,8 +60,8 @@ function install_all() {
       else 
         echo "Adding Daedalus to $rc_file"
         printf "\n$src_cmd" >> $usr_rc
-        source $usr_rc
       fi
+      source $usr_rc
       break
     fi
   done
