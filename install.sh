@@ -13,8 +13,8 @@ function install_all() {
   local files_to_check=(.bashrc .bash_profile .zshrc .zprofile)
   local source_found=false
   local installed_items=()
-  local bash_files=./bash_scripts/*.sh
-  local python_files=./python_scripts/*.py
+  local bash_files=./src/*.sh
+  local python_files=./pysrc/*.py
 
   echo "Installing Daedalus: This is a linux/unix only script"
   if [[ -d "$dae_dir" ]]
