@@ -14,7 +14,7 @@ function gup() {
 
 function gclone() {
     local name=$1
-    if [[ -z $2 ]]
+    if [[ -n $2 ]]
     then
         name=$2 
     fi
