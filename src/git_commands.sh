@@ -14,9 +14,9 @@ function gup() {
 
 function gclone() {
     local name=$1
-    if [[ -z "$2" ]]
+    if [[ -z $2 ]]
     then
-        name = $2 
+        name=$2 
     fi
     git clone git@github.com:icarus612/"$1".git $name
 }
