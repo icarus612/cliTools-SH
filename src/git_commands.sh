@@ -20,3 +20,12 @@ function gclone() {
     fi
     git clone git@github.com:icarus612/"$1".git $name
 }
+
+gsubclone() {
+    local name=$1
+    if [[ -n $2 ]]
+    then
+        name=$2 
+    fi
+    git submodule add git@github.com:icarus612/"$1".git $name
+}
