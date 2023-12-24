@@ -3,18 +3,16 @@ function lcount() {
 }
 
 function bfor() {
-	for i in $1
-	do
-		exec $2 $i
-	done
+	echo $1 
+	echo $2
+	$1 | xargs -I {} exec "$2" 
 }
 
 function lfor() {
 	location=""
 	command="$1"
-	if [[ -n $2 ]]
+	if [[ -z $2 ]]
 	then
-		echo "location"
 		location="$1"
 		command="$2"
 	fi
