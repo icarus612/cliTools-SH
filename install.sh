@@ -41,7 +41,6 @@ function install_all() {
   for rc_file in "${files_to_check[@]}"
   do
     local usr_rc=$home_dir/$rc_file
-    echo $usr_rc
     if [[ -f "$usr_rc" ]]
     then
       source_found=true
