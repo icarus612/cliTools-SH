@@ -19,7 +19,7 @@ function gsup() {
         echo "No commit message supplied, using default message"
         message="update" 
     fi
-    git submodule foreach --recursive 'git add .; git commit -m "Your commit message"; git push origin main'
+    git submodule foreach --recursive 'git add .; git commit -m "$message"; git push origin main'
     gup "$message"
 }
 
