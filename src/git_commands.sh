@@ -7,7 +7,7 @@ function gup() {
         echo "No commit message supplied, using default message"
         message="update" 
     fi
-    git add .
+    git add --all
     git commit -m "$message"
     git push
 }
