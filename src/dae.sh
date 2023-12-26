@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-function dae () {
+function dae() {
   local HOME_DIR=$HOME
   if $USER == "root"
   then
