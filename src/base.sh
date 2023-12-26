@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function lcount() {
 	ls -1 $1 | wc -l
 }
