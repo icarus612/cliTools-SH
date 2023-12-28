@@ -40,3 +40,11 @@ function gsubclone() {
     fi
     git submodule add git@github.com:icarus612/"$1".git $name
 }
+
+function gsubpull() {
+    git pull --recurse-submodules
+}
+
+function gmonoinit() {
+    git submodule update --init --recursive
+}
