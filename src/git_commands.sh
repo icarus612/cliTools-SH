@@ -7,6 +7,7 @@ function gup() {
         echo "No commit message supplied, using default message"
         message="update" 
     fi
+    
     git add --all
     git commit -m "$message"
     git push
@@ -39,4 +40,8 @@ function gsubclone() {
         name=$2 
     fi
     git submodule add git@github.com:icarus612/"$1".git $name
+}
+
+function gsubpull() {
+    git submodule foreach --recursive 'git pull origin main'
 }
