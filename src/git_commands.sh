@@ -24,6 +24,17 @@ function gsup() {
     gup "$message"
 }
 
+function gsupinit() {
+    local message=$1
+    if [[ -z "$message" ]]
+    then
+        echo "No commit message supplied, using default message"
+        message="update" 
+    fi
+    git submodule foreach --recursive "git add --all; git commit -m \"$message\"; git push origin main"
+    gup "$message"
+}
+
 function gmonoinit() {
     git submodule update --init --recursive
 }
