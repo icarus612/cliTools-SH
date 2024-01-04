@@ -13,7 +13,7 @@ function gup() {
     git push
 }
 function gsfor() {
-    git submodule foreach --recursive "$1"
+    git submodule foreach --recursive "$@"
 }
 
 function gsup() {
