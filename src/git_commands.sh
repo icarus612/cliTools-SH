@@ -17,13 +17,24 @@ function gsfor() {
 }
 
 function gsup() {
-    local message=$1
+    local message=$@
     if [[ -z "$message" ]]
     then
         echo "No commit message supplied, using default message"
         message="update" 
     fi
-    gsfor "git add --all; git commit -m \"$message\"; git push ${@:1}"
+    gsfor "git add --all; git commit -m \"$message\"; git push"
+    gup "$message"
+}
+
+function gsupmain() {
+    local message=$@
+    if [[ -z "$message" ]]
+    then
+        echo "No commit message supplied, using default message"
+        message="update" 
+    fi
+    gsfor "git add --all; git commit -m \"$message\"; git push origin main"
     gup "$message"
 }
 
