@@ -12,6 +12,9 @@ function gup() {
     git commit -m "$message"
     git push
 }
+function gsfor() {
+    git submodule foreach --recursive "$1"
+}
 
 function gsup() {
     local message=$1
@@ -20,22 +23,11 @@ function gsup() {
         echo "No commit message supplied, using default message"
         message="update" 
     fi
-    git submodule foreach --recursive "git add --all; git commit -m \"$message\"; git push"
+    gsfor "git add --all; git commit -m \"$message\"; git push"
     gup "$message"
 }
 
-function gsupinit() {
-    local message=$1
-    if [[ -z "$message" ]]
-    then
-        echo "No commit message supplied, using default message"
-        message="update" 
-    fi
-    git submodule foreach --recursive "git add --all; git commit -m \"$message\"; git push origin main"
-    gup "$message"
-}
-
-function gmonoinit() {
+function gsinit() {
     git submodule update --init --recursive
 }
 
@@ -47,11 +39,11 @@ function gclone() {
     fi
     git clone git@github.com:icarus612/"$1".git $name
     cd $name 
-    gmonoinit &
+    gsinit &
     cd -
 }
 
-function gsubclone() {
+function gsclone() {
     local name=$1
     if [[ -n $2 ]]
     then
@@ -60,7 +52,7 @@ function gsubclone() {
     git submodule add git@github.com:icarus612/"$1".git $name
 }
 
-function gsubpull() {
+function gspull() {
     git submodule foreach --recursive 'git pull origin main'
     git pull --recurse-submodules
 }
