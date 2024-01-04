@@ -23,7 +23,7 @@ function gsup() {
         echo "No commit message supplied, using default message"
         message="update" 
     fi
-    gsfor "git add --all; git commit -m \"$message\"; git push"
+    gsfor "git add --all; git commit -m \"$message\"; git push ${@:1}"
     gup "$message"
 }
 
