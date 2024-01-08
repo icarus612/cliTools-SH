@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function gup() {
-    local message=$1
+    local message=$@
     if [[ -z "$message" ]]
     then
         echo "No commit message supplied, using default message"
