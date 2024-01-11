@@ -17,7 +17,6 @@ function gup() {
         esac
     done
 		
-    
     git add --all
     git commit -m "$message"
     git push $branch
