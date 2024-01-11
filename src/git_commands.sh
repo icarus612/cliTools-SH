@@ -6,22 +6,16 @@ function gsfor() {
 
 function gup() {
     local message="update"
-		local isSubmodule=false
-		local branch=""
-		while getopts "bms" flag
-		do
-			case "${flag}" in
-				m) message=$OPTARG;;
-				b) branch=$OPTARG;;
-				s) gsfor "git add --all; git commit -m \"$message\"; git push $branch";;
-				\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
-			esac
-		done
-		
-		if [[ "$isSubmodule" = true ]]
-		then
-		  
-		fi
+    local branch=""
+    while getopts "bms" flag
+    do
+        case "${flag}" in
+            m) message=$OPTARG;;
+            b) branch=$OPTARG;;
+            s) gsfor "git add --all; git commit -m \"$message\"; git push $branch";;
+            \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
+        esac
+    done
 		
     
     git add --all
