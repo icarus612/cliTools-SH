@@ -68,8 +68,9 @@ function gspull() {
 		done
 		
 		if [[ "$fetch" = true ]]
-    	git pull --recurse-submodules
 		then
+    	git pull --recurse-submodules
+		fi 
 		
     gsfor 'git pull origin $branch'
 }
