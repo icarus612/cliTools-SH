@@ -12,15 +12,15 @@ function gup() {
 		do
 			case "${flag}" in
 				m) message=$OPTARG;;
-				s) isSubmodule=true;;
 				b) branch=$OPTARG;;
+				s) gsfor "git add --all; git commit -m \"$message\"; git push $branch";;
 				\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
 			esac
 		done
 		
 		if [[ "$isSubmodule" = true ]]
 		then
-		  gsfor "git add --all; git commit -m \"$message\"; git push $branch"
+		  
 		fi
 		
     
@@ -56,21 +56,16 @@ function gsadd() {
 
 function gspull() {
 		local branch="main"
-		local fetch=false
 		
-    while getopts "bf" flag
+    while getopts "bif" flag
 		do
 			case "${flag}" in
 				b) branch=$OPTARG;;
-				f) fetch=true;;
+				i) git submodule update --init --recursive;;
+				f) git pull --recurse-submodules;;
 				\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
 			esac
 		done
-		
-		if [[ "$fetch" = true ]]
-		then
-    	git pull --recurse-submodules
-		fi 
 		
     gsfor 'git pull origin $branch'
 }
