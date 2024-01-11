@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function gsfor() {
-    git submodule foreach --recursive "$@"
+  git submodule foreach --recursive "$@"
 }
 
 function gup() {
@@ -36,7 +36,7 @@ function gclone() {
 	local name=$1
 	if [[ -n $2 ]]
 	then
-			name=$2 
+		name=$2 
 	fi
 	git clone git@github.com:icarus612/"$1".git $name
 	cd $name 
@@ -48,7 +48,7 @@ function gsadd() {
 	local name=$1
 	if [[ -n $2 ]]
 	then
-			name=$2 
+		name=$2 
 	fi
 	git submodule add git@github.com:icarus612/"$1".git $name
 }
