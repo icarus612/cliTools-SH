@@ -1,41 +1,33 @@
 #!/bin/bash
 
-function gup() {
-    local message=$@
-    if [[ -z "$message" ]]
-    then
-        echo "No commit message supplied, using default message"
-        message="update" 
-    fi
-    
-    git add --all
-    git commit -m "$message"
-    git push
-}
 function gsfor() {
     git submodule foreach --recursive "$@"
 }
 
-function gsup() {
-    local message=$@
-    if [[ -z "$message" ]]
-    then
-        echo "No commit message supplied, using default message"
-        message="update" 
-    fi
-    gsfor "git add --all; git commit -m \"$message\"; git push"
-    gup "$message"
-}
-
-function gsupmain() {
-    local message=$@
-    if [[ -z "$message" ]]
-    then
-        echo "No commit message supplied, using default message"
-        message="update" 
-    fi
-    gsfor "git add --all; git commit -m \"$message\"; git push origin main"
-    gup "$message"
+function gup() {
+    local message="update"
+		local add="."
+		local isSubmodule=false
+		local branch=""
+		while getopts "bams" flag
+		do
+			case "${flag}" in
+				m) message=$OPTARG;;
+				a) add="--all";;
+				s) isSubmodule=true;;
+				b) branch=$OPTARG;;
+			esac
+		done
+		
+		if [[ "$isSubmodule" = true ]]
+		then
+		  gsfor "git add $add; git commit -m \"$message\"; git push $branch"
+		fi
+		
+    
+    git add $add
+    git commit -m "$message"
+    git push $branch
 }
 
 function gsinit() {
@@ -54,7 +46,7 @@ function gclone() {
     cd -
 }
 
-function gsclone() {
+function gsadd() {
     local name=$1
     if [[ -n $2 ]]
     then
@@ -64,6 +56,11 @@ function gsclone() {
 }
 
 function gspull() {
-    git submodule foreach --recursive 'git pull origin main'
+		local branch=$1
+    if [[ -z "$message" ]]
+    then
+      branch="main" 
+    fi
     git pull --recurse-submodules
+    git submodule foreach --recursive 'git pull origin $branch'
 }
