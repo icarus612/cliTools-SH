@@ -6,26 +6,25 @@ function gsfor() {
 
 function gup() {
     local message="update"
-		local add="."
 		local isSubmodule=false
 		local branch=""
-		while getopts "bams" flag
+		while getopts "bms" flag
 		do
 			case "${flag}" in
 				m) message=$OPTARG;;
-				a) add="--all";;
 				s) isSubmodule=true;;
 				b) branch=$OPTARG;;
+				\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
 			esac
 		done
 		
 		if [[ "$isSubmodule" = true ]]
 		then
-		  gsfor "git add $add; git commit -m \"$message\"; git push $branch"
+		  gsfor "git add --all; git commit -m \"$message\"; git push $branch"
 		fi
 		
     
-    git add $add
+    git add --all
     git commit -m "$message"
     git push $branch
 }
@@ -56,11 +55,21 @@ function gsadd() {
 }
 
 function gspull() {
-		local branch=$1
-    if [[ -z "$message" ]]
-    then
-      branch="main" 
-    fi
-    git pull --recurse-submodules
-    git submodule foreach --recursive 'git pull origin $branch'
+		local branch="main"
+		local fetch=false
+		
+    while getopts "bf" flag
+		do
+			case "${flag}" in
+				b) branch=$OPTARG;;
+				f) fetch=true;;
+				\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
+			esac
+		done
+		
+		if [[ "$fetch" = true ]]
+    	git pull --recurse-submodules
+		then
+		
+    gsfor 'git pull origin $branch'
 }
