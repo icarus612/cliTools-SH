@@ -61,4 +61,5 @@ function gspull() {
 		done
 		
     gsfor 'git pull origin $branch'
+		git pull
 }
