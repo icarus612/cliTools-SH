@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function gsfor() {
-  git submodule foreach --recursive "$@"
+  git submodule foreach --recursive '$@'
 }
 
 function gup() {
