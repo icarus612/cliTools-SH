@@ -20,7 +20,7 @@ function gup() {
 	
 	if [[ "$isSubmodule" = true ]]
 	then
-		gsfor 'git add --all; git commit -m \"$message\"; git push $branch'
+		gsfor "git add --all; git commit -m \"$message\"; git push $branch"
 	fi
 	
 	git add --all
