@@ -8,7 +8,7 @@ function gup() {
 	local message="update"
 	local isSubmodule=false
 	local branch=""
-	while getopts "bms" flag
+	while getopts "b:m:s" flag
 	do
 		case "${flag}" in
 			m) message=$OPTARG;;
