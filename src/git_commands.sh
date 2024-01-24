@@ -56,7 +56,7 @@ function gsadd() {
 function gspull() {
 	local branch="main"
 	
-	while getopts "bif" flag
+	while getopts "b:if" flag
 	do
 		case "${flag}" in
 			b) branch=$OPTARG;;
