@@ -8,7 +8,6 @@ function gup() {
 	local message="update"
 	local isSubmodule=false
 	local branch=""
-	OPTIND=1
 	while getopts ":b:m:s" flag
 	do
 		case "${flag}" in
@@ -22,6 +21,7 @@ function gup() {
 		esac
 	done
 	shift $((OPTIND - 1))
+	OPTIND=1
 	if [[ "$isSubmodule" = true ]]
 	then
 		gsfor "git add --all; git commit -m \"$message\"; git push $branch"
@@ -59,7 +59,6 @@ function gsadd() {
 
 function gspull() {
 	local branch="main"
-	OPTIND=1
 	while getopts ":b:if" flag
 	do
 		case "${flag}" in
@@ -70,6 +69,7 @@ function gspull() {
 		esac
 	done
 	shift $((OPTIND - 1))
+	OPTIND=1
 	gsfor 'git pull origin $branch'
 	git pull
 }
