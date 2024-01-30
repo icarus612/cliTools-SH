@@ -8,7 +8,7 @@ function gup() {
 	local message="update"
 	local isSubmodule=false
 	local branch=""
-	while getopts ":b:m:s" flag
+	while getopts "b:m:s" flag
 	do
 		case "${flag}" in
 			m) message=$OPTARG;;
@@ -59,7 +59,7 @@ function gsadd() {
 
 function gspull() {
 	local branch="main"
-	while getopts ":b:if" flag
+	while getopts "b:if" flag
 	do
 		case "${flag}" in
 			b) branch=$OPTARG;;
