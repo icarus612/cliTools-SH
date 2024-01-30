@@ -13,23 +13,20 @@ function gup() {
 		case "${flag}" in
 			m) 
 				message=$OPTARG
-				shift
 			;;
 			b) 
 				branch=$OPTARG
-				shift
 			;;
 			s) 
 				isSubmodule=true
-				shift
 			;;
 			\?) 
 				echo "Invalid option: -$OPTARG" >&2
-				exit 1
+				return 
 			;;
 		esac
 	done
-	
+	shift $((OPTIND - 1))
 	if [[ "$isSubmodule" = true ]]
 	then
 		gsfor "git add --all; git commit -m \"$message\"; git push $branch"
