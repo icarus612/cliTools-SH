@@ -8,13 +8,26 @@ function gup() {
 	local message="update"
 	local isSubmodule=false
 	local branch=""
-	while getopts "b:m:s" flag; do
+	while getopts "b:m:s" flag
+	do
 		case "${flag}" in
-			m) message=$OPTARG;;
-			b) branch=$OPTARG;;
-			s) isSubmodule=true;;
-			\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
+			m) 
+				message=$OPTARG
+				shift
+			;;
+			b) 
+				branch=$OPTARG
+				shift
+			;;
+			s) 
+				isSubmodule=true
+			;;
+			\?) 
+				echo "Invalid option: -$OPTARG" >&2
+				exit 1
+			;;
 		esac
+		shift
 	done
 	
 	if [[ "$isSubmodule" = true ]]
