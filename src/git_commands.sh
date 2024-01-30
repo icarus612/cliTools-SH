@@ -8,7 +8,7 @@ function gup() {
 	local message="update"
 	local isSubmodule=false
 	local branch=""
-	while getopts "b:m:s" flag
+	while getopts ":b:m:s" flag
 	do
 		case "${flag}" in
 			m) 
@@ -21,13 +21,13 @@ function gup() {
 			;;
 			s) 
 				isSubmodule=true
+				shift
 			;;
 			\?) 
 				echo "Invalid option: -$OPTARG" >&2
 				exit 1
 			;;
 		esac
-		shift
 	done
 	
 	if [[ "$isSubmodule" = true ]]
@@ -68,7 +68,7 @@ function gsadd() {
 function gspull() {
 	local branch="main"
 	
-	while getopts ":bif" flag
+	while getopts ":b:if" flag
 	do
 		case "${flag}" in
 			b) branch=$OPTARG;;
