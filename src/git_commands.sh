@@ -69,7 +69,7 @@ function gspull() {
 			\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
 		esac
 	done
-	
+	shift $((OPTIND - 1))
 	gsfor 'git pull origin $branch'
 	git pull
 }
