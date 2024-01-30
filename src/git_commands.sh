@@ -8,12 +8,11 @@ function gup() {
 	local message="update"
 	local isSubmodule=false
 	local branch=""
-	while getopts "b:m:s" flag
-	do
+	while getopts "b:m:s" flag; do
 		case "${flag}" in
 			m) message=$OPTARG;;
-			s) isSubmodule=true;;
 			b) branch=$OPTARG;;
+			s) isSubmodule=true;;
 			\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
 		esac
 	done
@@ -56,12 +55,12 @@ function gsadd() {
 function gspull() {
 	local branch="main"
 	
-	while getopts "b:if" flag
+	while getopts ":bif" flag
 	do
 		case "${flag}" in
 			b) branch=$OPTARG;;
 			i) git submodule update --init --recursive;;
-			f) git pull --recurse-submodules;;
+			f) git fetch --recurse-submodules;;
 			\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
 		esac
 	done
