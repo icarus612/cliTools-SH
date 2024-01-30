@@ -8,18 +8,13 @@ function gup() {
 	local message="update"
 	local isSubmodule=false
 	local branch=""
+	OPTIND=1
 	while getopts ":b:m:s" flag
 	do
 		case "${flag}" in
-			m) 
-				message=$OPTARG
-			;;
-			b) 
-				branch=$OPTARG
-			;;
-			s) 
-				isSubmodule=true
-			;;
+			m) message=$OPTARG;;
+			b) branch=$OPTARG;;
+			s) isSubmodule=true;;
 			\?) 
 				echo "Invalid option: -$OPTARG" >&2
 				return 
@@ -64,7 +59,7 @@ function gsadd() {
 
 function gspull() {
 	local branch="main"
-	
+	OPTIND=1
 	while getopts ":b:if" flag
 	do
 		case "${flag}" in
