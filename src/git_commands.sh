@@ -5,15 +5,25 @@ function gsfor() {
 }
 
 function gup() {
+	if [[ $(git rev-parse --is-inside-work-tree) != true ]]
+	then
+		return
+	fi
+
 	local message="update"
-	local isSubmodule=false
+	local is_submodule=false
+	local sub_base='.'
 	local branch=""
-	while getopts "b:m:s" flag
+	while getopts "b:m:sS" flag
 	do
 		case "${flag}" in
 			m) message=$OPTARG;;
 			b) branch=$OPTARG;;
-			s) isSubmodule=true;;
+			s) is_submodule=true;;
+			S) 
+				is_submodule=true
+				sub_base=$(git rev-parse --show-toplevel)
+				;;
 			\?) 
 				echo "Invalid option: -$OPTARG" >&2
 				return 
@@ -22,9 +32,17 @@ function gup() {
 	done
 	shift $((OPTIND - 1))
 	OPTIND=1
-	if [[ "$isSubmodule" = true ]]
+
+	if [[ "$is_submodule" = true ]]
 	then
-		gsfor "git add --all; git commit -m \"$message\"; git push $branch"
+		find $sub_base -name .git | while read line
+		do
+			cd $(dirname $line)
+			git add --all
+			git commit -m "$message"
+			git push $branch
+			cd -
+		done
 	fi
 	
 	git add --all
@@ -34,6 +52,7 @@ function gup() {
 
 function gsinit() {
   git submodule update --init --recursive
+  gsfor 'git checkout main'
 }
 
 function gclone() {
