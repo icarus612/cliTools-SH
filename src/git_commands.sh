@@ -38,7 +38,7 @@ function gup() {
 		find $sub_base -name .git | while read line
 		do
 			local location=$(dirname $line)
-			echo "Entering $(pwd $location)" 
+			echo "Entering $(basename $location)" 
 			cd $location
 			git add --all
 			git commit -m "$message" -q
