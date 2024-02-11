@@ -35,18 +35,23 @@ function gup() {
 
 	if [[ "$is_submodule" = true ]]
 	then
-		find $sub_base -name .git | while read line
+		find $sub_base -type f -name .git | while read line
 		do
 			local location=$(dirname $line)
-			echo "Entering $(basename $location)" 
+			echo "Entering $location" 
 			cd $location
 			git add --all
 			if ! git diff-index --quiet $branch HEAD
 			then
 				git commit -m "$message" -q
 				git push $branch -q
+				echo "Changes pushed to $location"
+			else 
+				echo "No changes in $location"
 			fi
-			cd -
+			echo "\n"
+			
+			cd - > /dev/null
 		done
 	fi
 	
