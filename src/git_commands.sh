@@ -49,8 +49,8 @@ function gup() {
 			else 
 				echo "No changes in $location"
 			fi
-			echo "\n"
-			
+			echo ""
+
 			cd - > /dev/null
 		done
 	fi
