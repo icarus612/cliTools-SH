@@ -46,12 +46,11 @@ function gup() {
 			then
 				git commit -m "$message" -q
 				git push $branch -q
-				echo "Changes pushed to $loc_base"
+				echo "Pushing changes to $loc_base"
 			else 
 				echo "No changes in $loc_base"
 			fi
 			echo ""
-
 			cd - > /dev/null
 		done
 	fi
