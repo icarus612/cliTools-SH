@@ -39,7 +39,11 @@ function gup() {
 		do
 			local location=$(dirname $line)
 			echo "Entering $location" 
-			bash -c "cd $location && git add --all && git commit -q -m \"$message\" && git push -q $branch && cd -"
+			cd $location
+			git add --all
+			git commit -m "$message" -q
+			git push $branch -q
+			cd -
 		done
 	fi
 	
