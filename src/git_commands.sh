@@ -41,8 +41,11 @@ function gup() {
 			echo "Entering $(basename $location)" 
 			cd $location
 			git add --all
-			git commit -m "$message" -q
-			git push $branch -q
+			if ! git diff-index --quiet $branch HEAD
+			then
+				git commit -m "$message" -q
+				git push $branch -q
+			fi
 			cd -
 		done
 	fi
