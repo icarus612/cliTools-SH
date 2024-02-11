@@ -44,6 +44,7 @@ function gup() {
 			git add --all
 			if ! git diff-index --quiet $branch HEAD
 			then
+				echo "Changes found"
 				git commit -m "$message" -q
 				git push $branch -q
 				echo "Pushing changes to $loc_base"
