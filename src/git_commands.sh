@@ -38,6 +38,7 @@ function gup() {
 		find $sub_base -type f -name .git | while read line
 		do
 			local location=$(dirname $line)
+			local loc_base=$(basename $location)
 			echo "Entering $location" 
 			cd $location
 			git add --all
@@ -45,9 +46,9 @@ function gup() {
 			then
 				git commit -m "$message" -q
 				git push $branch -q
-				echo "Changes pushed to $location"
+				echo "Changes pushed to $loc_base"
 			else 
-				echo "No changes in $location"
+				echo "No changes in $loc_base"
 			fi
 			echo ""
 
