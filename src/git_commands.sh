@@ -10,15 +10,22 @@ function gup() {
 		return
 	fi
 
-	local message="update"
+	local is_remote_init=false
 	local is_submodule=false
+	local remote_opts=""
+	local message="update"
 	local sub_base='.'
 	local branch=""
-	while getopts "b:m:sS" flag
+
+	while getopts "b:m:i:sS" flag
 	do
 		case "${flag}" in
-			m) message=$OPTARG;;
 			b) branch=$OPTARG;;
+			m) message=$OPTARG;;
+			i) 
+				is_remote_init=true
+				remote_opts=$OPTARG
+				;;
 			s) is_submodule=true;;
 			S) 
 				is_submodule=true
@@ -56,6 +63,11 @@ function gup() {
 		done
 	fi
 	
+	if [[ "$is_remote_init" = true ]]
+	then
+		echo "Creating remote repository"
+		gh repo create $remote_opts
+	fi
 	git add --all
 	git commit -m "$message"
 	git push $branch
