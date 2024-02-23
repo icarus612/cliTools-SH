@@ -17,10 +17,13 @@ function gup() {
 	local sub_base='.'
 	local branch=""
 
-	while getopts ":b:m:iI:sS" flag
+	while getopts ":b:B:m:iI:sS" flag
 	do
 		case "${flag}" in
 			b) branch=$OPTARG;;
+			B) 
+				branch="-u $OPTARG"
+				;;
 			m) message=$OPTARG;;
 			i) is_remote_init=true;;
 			I) 
@@ -64,13 +67,16 @@ function gup() {
 		done
 	fi
 	
+	git add --all
+	git commit -m "$message"
+
 	if [[ "$is_remote_init" = true ]]
 	then
 		echo "Creating remote repository"
 		gh repo create $remote_opts
+		branch="-u origin main"
 	fi
-	git add --all
-	git commit -m "$message"
+	
 	git push $branch
 }
 
