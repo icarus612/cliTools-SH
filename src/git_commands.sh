@@ -17,12 +17,13 @@ function gup() {
 	local sub_base='.'
 	local branch=""
 
-	while getopts "b:m:i:sS" flag
+	while getopts ":b:m:iI:sS" flag
 	do
 		case "${flag}" in
 			b) branch=$OPTARG;;
 			m) message=$OPTARG;;
-			i) 
+			i) is_remote_init=true;;
+			I) 
 				is_remote_init=true
 				remote_opts=$OPTARG
 				;;
