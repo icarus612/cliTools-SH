@@ -79,8 +79,12 @@ function gup() {
 		git submodule add $repo_url $(pwd)
 	fi
 
+
 	git add --all
 	git commit -m "$message"
+	if [[ "$is_origin" = true ]]; then
+		git push -u origin $branch
+	fi 
 	git push $branch
 }
 
@@ -125,4 +129,5 @@ function gspull() {
 	OPTIND=1
 	gsfor 'git pull origin $branch'
 	git pull
+ 
 }
