@@ -12,6 +12,7 @@ function gup() {
 	local is_remote_init=false
 	local is_submodule_init=false
 	local is_submodule=false
+	local is_origin=false
 	local remote_opts=""
 	local message="update"
 	local sub_base='.'
@@ -20,7 +21,10 @@ function gup() {
 	while getopts ":b:B:m:iI:sS" flag; do
 		case "${flag}" in
 		b) branch=$OPTARG ;;
-		B) branch="-u origin $OPTARG" ;;
+		B)
+			branch=$OPTARG
+			is_origin=true
+			;;
 		m) message=$OPTARG ;;
 		i) is_remote_init=true ;;
 		I)
@@ -50,7 +54,7 @@ function gup() {
 			git add --all
 			if ! git diff-index --quiet $branch HEAD; then
 				echo "Changes found"
-				git push $branch -q
+				git push origin $branch -q
 
 				git commit -m "$message" -q
 				echo "Pushing changes to $loc_base"
