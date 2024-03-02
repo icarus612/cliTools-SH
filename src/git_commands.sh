@@ -18,7 +18,7 @@ function gup() {
 	local sub_base='.'
 	local branch=""
 
-	while getopts ":b:B:m:iI:sS" flag; do
+	while getopts ":b:B:m:i:I:sS" flag; do
 		case "${flag}" in
 		b) branch=$OPTARG ;;
 		B)
@@ -26,9 +26,13 @@ function gup() {
 			is_origin=true
 			;;
 		m) message=$OPTARG ;;
-		i) is_remote_init=true ;;
+		i) 
+			is_remote_init=true 
+			remote_opts=$OPTARG
+			;;
 		I)
 			is_remote_init=true
+			is_submodule_init=true
 			remote_opts=$OPTARG
 			;;
 		s) is_submodule=true ;;
@@ -75,8 +79,11 @@ function gup() {
 	if [[ "$is_submodule_init" = true ]]; then
 		echo "Initializing as submodules"
 		local repo_url=$(git config --get remote.origin.url)
-		git rm --cached $(pwd)
-		git submodule add $repo_url $(pwd)
+		local current_dir=$(pwd)
+		rm -rf .git
+		cd ..
+		git rm --cached -r $current_dir
+		git submodule add $repo_url $current_dir
 	fi
 
 
@@ -84,8 +91,9 @@ function gup() {
 	git commit -m "$message"
 	if [[ "$is_origin" = true ]]; then
 		git push -u origin $branch
+	else
+		git push $branch
 	fi 
-	git push $branch
 }
 
 function gsinit() {
