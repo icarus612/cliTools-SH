@@ -74,17 +74,17 @@ function gup() {
 		echo "Creating remote repository"
 		gh repo create
 		branch="-u origin main"
+		if [[ "$is_submodule_init" = true ]]; then
+			echo "Initializing as submodules"
+			local repo_url=$(git config --get remote.origin.url)			local current_dir=$(pwd)
+			rm -rf .git
+			cd ..
+			git rm --cached -r $current_dir
+			git submodule add $repo_url $current_dir
+			cd $current_dir
+		fi
 	fi
 
-	if [[ "$is_submodule_init" = true ]]; then
-		echo "Initializing as submodules"
-		local repo_url=$(git config --get remote.origin.url)
-		local current_dir=$(pwd)
-		rm -rf .git
-		cd ..
-		git rm --cached -r $current_dir
-		git submodule add $repo_url $current_dir
-	fi
 
 
 	git add --all
