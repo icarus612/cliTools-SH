@@ -76,7 +76,8 @@ function gup() {
 		branch="-u origin main"
 		if [[ "$is_submodule_init" = true ]]; then
 			echo "Initializing as submodules"
-			local repo_url=$(git config --get remote.origin.url)			local current_dir=$(pwd)
+			local repo_url=$(git config --get remote.origin.url)
+			local current_dir=$(pwd)
 			rm -rf .git
 			cd ..
 			git rm --cached -r $current_dir
