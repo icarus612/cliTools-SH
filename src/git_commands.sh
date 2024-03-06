@@ -1,7 +1,37 @@
 #!/bin/bash
 
+function gsf() {
+	git submodule foreach $@
+}
+
 function gsfor() {
-	git submodule foreach --recursive "$@"
+	if [[ $(git rev-parse --is-inside-work-tree) != true ]]; then
+		return
+	fi
+	
+	local sub_base=$(git rev-parse --show-toplevel)
+	local current_dir=$(pwd)
+
+	while getopts "l" flag; do
+		case "${flag}" in
+		l) sub_base="." ;;
+		\?)
+			echo "Invalid option: -$OPTARG" >&2
+			return
+			;;
+		esac
+	done
+
+	shift $((OPTIND - 1))
+	OPTIND=1
+
+	find $sub_base -type f -name .git | while read line; do
+		local location=$(dirname $line)
+		local loc_base=$(basename $location)
+		cd $location
+		$@
+	done
+	cd $current_dir
 }
 
 function gup() {
@@ -26,8 +56,8 @@ function gup() {
 			is_origin=true
 			;;
 		m) message=$OPTARG ;;
-		i) 
-			is_remote_init=true 
+		i)
+			is_remote_init=true
 			remote_opts=$OPTARG
 			;;
 		I)
@@ -86,15 +116,13 @@ function gup() {
 		fi
 	fi
 
-
-
 	git add --all
 	git commit -m "$message"
 	if [[ "$is_origin" = true ]]; then
 		git push -u origin $branch
 	else
 		git push $branch
-	fi 
+	fi
 }
 
 function gsinit() {
@@ -138,5 +166,5 @@ function gspull() {
 	OPTIND=1
 	gsfor 'git pull origin $branch'
 	git pull
- 
+
 }
